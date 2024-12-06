@@ -21,17 +21,28 @@ const CommandLine = ({
       setSuggestions([]);
     }
   }, [historyIndex, history]);
-
+  
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const trimmedInput = input.trim();
-
+  
     if (trimmedInput === "clear") {
       onClear();
+    } else if (trimmedInput.startsWith("mkdir") && trimmedInput.split(" ").length < 2) {
+     
+      alert("mkdir: missing operand");
+    } else if (trimmedInput.startsWith("touch") && trimmedInput.split(" ").length < 2) {
+      
+      alert("touch: missing operand");
     } else if (trimmedInput) {
       onSubmit(trimmedInput);
     }
 
+    if (trimmedInput === "pwd") {
+      onSubmit(`Current directory: ${currentPath}`);
+    }
+  
     setInput("");
     setSuggestions([]);
     setSelectedSuggestion(-1);

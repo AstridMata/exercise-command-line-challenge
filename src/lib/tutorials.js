@@ -171,16 +171,25 @@ export const tutorials = [
   },
 ];
 
+// export const checkCommand = (command, currentStep) => {
+//   if (!currentStep) return false;
+
+//   // If the step is a discussion point or non-command step (expectedCommand is 'N/A')
+//   if (currentStep.expectedCommand) {
+//     // Consider these steps as automatically completed when any input is provided
+//     return true;
+//   }
+
+//   // Clean up the command by trimming whitespace and handling multiple spaces
+//   const cleanCommand = command.trim().replace(/\s+/g, " ").toLowerCase();
+//   const expectedCommand = currentStep.expectedCommand.toLowerCase();
+
+//   return cleanCommand === expectedCommand;
+// };
 export const checkCommand = (command, currentStep) => {
-  if (!currentStep) return false;
+  if (!currentStep || !currentStep.expectedCommand) return false;
 
-  // If the step is a discussion point or non-command step (expectedCommand is 'N/A')
-  if (currentStep.expectedCommand) {
-    // Consider these steps as automatically completed when any input is provided
-    return true;
-  }
-
-  // Clean up the command by trimming whitespace and handling multiple spaces
+  // Limpia el comando de espacios extra y maneja los espacios múltiples
   const cleanCommand = command.trim().replace(/\s+/g, " ").toLowerCase();
   const expectedCommand = currentStep.expectedCommand.toLowerCase();
 

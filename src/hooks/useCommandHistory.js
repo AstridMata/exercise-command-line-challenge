@@ -9,6 +9,11 @@ const useCommandHistory = () => {
     setHistoryIndex(-1);
   };
 
+  // no se donde deberia ir 
+  // const onClear = () => {
+  //   setHistory([]);
+  // };
+
   const navigateHistory = (direction) => {
     if (history.length === 0) return;
 

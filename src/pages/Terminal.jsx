@@ -46,7 +46,7 @@ const Terminal = () => {
   const [currentTutorial, setCurrentTutorial] = useState(null);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [showInstructions, setShowInstructions] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(true);
   const [currentPath, setCurrentPath] = useState("/");
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -94,45 +94,45 @@ const Terminal = () => {
 
   const handleCommand = (command) => {
     if (!command.trim()) return;
-
+  
     setOutput((prev) => [...prev, { type: "input", content: command }]);
-
+  
     if (command.trim().toLowerCase() === "clear") {
-      setOutput([]);
+      setOutput([]); // Limpiar la terminal
       return;
     }
-
+  
     const result = executeCommand(command);
     setOutput((prev) => [...prev, { type: "output", content: result }]);
     addToHistory(command);
-
-    if (command.trim().toLowerCase().startsWith("cd ")) {
-      setCurrentPath(fileSystem.pwd());
-    }
-
-    if (
-      currentTutorial &&
-      checkCommand(command, currentTutorial.steps[currentStepIndex])
-    ) {
+  
+    // Verifica si el comando es correcto para el paso actual del tutorial
+    if (currentTutorial && checkCommand(command, currentTutorial.steps[currentStepIndex])) {
+      // Solo muestra el confeti si el comando es correcto
       setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 3000);
+      setTimeout(() => setShowConfetti(false), 3000); // Esconde el confeti después de 3 segundos
+  
+      // Avanza al siguiente paso del tutorial
       nextStep();
+    } else {
+      // Si el comando no es correcto, no haces nada con el confeti
+      setShowConfetti(false);
     }
   };
 
-  const handleSkipTutorial = () => {
-    setCurrentTutorial(tutorials[0]);
-    setOutput((prev) => [
-      ...prev,
-      {
-        type: "system",
-        content:
-          currentLanguage === "en"
-            ? 'Tutorial skipped. Type "help" if you need assistance.'
-            : 'Tutorial omitido. Escribe "help" si necesitas ayuda.',
-      },
-    ]);
-  };
+  // const handleSkipTutorial = () => {
+  //   setCurrentTutorial(tutorials[0]);
+  //   setOutput((prev) => [
+  //     ...prev,
+  //     {
+  //       type: "system",
+  //       content:
+  //         currentLanguage === "en"
+  //           ? 'Tutorial skipped. Type "help" if you need assistance.'
+  //           : 'Tutorial omitido. Escribe "help" si necesitas ayuda.',
+  //     },
+  //   ]);
+  // };
 
   useEffect(() => {
     const terminal = document.querySelector(`.${styles.output}`);
@@ -208,7 +208,7 @@ const Terminal = () => {
       <TutorialOverlay
         currentTutorial={currentTutorial}
         currentStep={currentTutorial?.steps[currentStepIndex]}
-        onSkip={handleSkipTutorial}
+        // onSkip={handleSkipTutorial}
         onContinue={() => nextStep()}
         currentLanguage={currentLanguage}
       />

@@ -21,9 +21,9 @@ const TutorialOverlay = ({
               Next step
             </button>
           )}
-          <button onClick={onSkip} className={styles.skipButton}>
+          {/* <button onClick={onSkip} className={styles.skipButton}>
             Skip Tutorial
-          </button>
+          </button> */}
         </div>
         {currentStep.hint && (
           <div className={styles.hint}>
@@ -36,3 +36,4 @@ const TutorialOverlay = ({
 };
 
 export default TutorialOverlay;
+

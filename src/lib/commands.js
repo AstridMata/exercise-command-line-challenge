@@ -168,3 +168,4 @@ File System Commands:
       return `Command not found: ${cmd}. Type 'help' for available commands.`;
   }
 };
+
